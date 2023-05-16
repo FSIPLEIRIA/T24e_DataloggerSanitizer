@@ -1,0 +1,49 @@
+{
+    "n_bytes": 8,
+    "n_ids_max": 20,
+    "n_ids": 3,
+    "structure": 
+    [{
+        "can_id": "0x60",
+        "vars": [
+            {
+                "name": "RPM",
+                "length": 2
+            },
+            {
+                "name": "OP",
+                "length": 2
+            },
+            {
+                "name": "ET",
+                "length": 2
+            },
+            {
+                "name": "BATV",
+                "length": 2
+            }
+        ]
+    },
+    {
+        "can_id": "0x61",
+        "vars": [
+            {
+                "name": "GndSpd",
+                "length": 2
+            },
+            {
+                "name": "GearV",
+                "length": 2
+            },
+            {
+                "name": "BP_FR",
+                "length": 2
+            },
+            {
+                "name": "BP_RE",
+                "length": 2
+            }
+        ]
+    }
+    ]
+}
