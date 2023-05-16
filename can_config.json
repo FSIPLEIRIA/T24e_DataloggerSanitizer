@@ -8,19 +8,23 @@
         "vars": [
             {
                 "name": "RPM",
-                "length": 2
+                "length": 2,
+                "values": []
             },
             {
                 "name": "OP",
-                "length": 2
+                "length": 2,
+                "values": []
             },
             {
                 "name": "ET",
-                "length": 2
+                "length": 2,
+                "values": []
             },
             {
                 "name": "BATV",
-                "length": 2
+                "length": 2,
+                "values": []
             }
         ]
     },
@@ -29,19 +33,23 @@
         "vars": [
             {
                 "name": "GndSpd",
-                "length": 2
+                "length": 2,
+                "values": []
             },
             {
                 "name": "GearV",
-                "length": 2
+                "length": 2,
+                "values": []
             },
             {
                 "name": "BP_FR",
-                "length": 2
+                "length": 2,
+                "values": []
             },
             {
                 "name": "BP_RE",
-                "length": 2
+                "length": 2,
+                "values": []
             }
         ]
     }

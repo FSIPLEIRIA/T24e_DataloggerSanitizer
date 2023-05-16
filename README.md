@@ -9,6 +9,6 @@ Sanitize the CSV file to be more optimal to analyze data.
 - ```n_ids```: Number of used IDs
 - ```structure```: Structure of the CAN frames
   - ```can_id```: CAN ID 
-  - ```vars```:
+  - ```vars```: Variables defined in this frame. Mind the byte order.
     - ```name```: Textual description of the variable
     - ```length```: Number of bytes allocated to this variable
