@@ -5,6 +5,7 @@ import json
 """
 Developed by carlostojal - may 2023
 (autonomous driving department rules :))
+(the autonomous software is more optimized than this, trust me)
 """
 
 # parse the int bytes from an int array i.e. bit masking and shifting
@@ -24,31 +25,32 @@ if len(sys.argv) == 1:
 # load configuration file
 print("Reading CAN configuration...", end='')
 f = open("can_config.json", "r")
-config = json.loads(f.read())
+can_struct = json.loads(f.read())
 f.close()
-print(config)
+print(can_struct)
 print("Done!")
 
 # load csv file to numpy matrix
-print("Reading the data...", end='')
+print("Reading the file...", end='')
 mat = np.loadtxt(sys.argv[1], delimiter=';', dtype=int)
 print("Done!")
 
 # slice the IDs based on the config
-ids_vector = mat[0:config['n_ids'],0]
+ids_vector = mat[0:can_struct['n_ids'], 0]
 
 # remove the IDs column from the matrix
 mat = mat[:,1:]
 
 # iterate the matrix rows
+print("Parsing the data...", end='')
 curr_row = 0
 while curr_row < mat.shape[0]:
 
     # iterate the IDs
-    for id_index in range(config['n_ids']):
+    for id_index in range(can_struct['n_ids']):
 
         # find the frame ID on configuration to parse bytes
-        for frame_config in config['structure']:
+        for frame_config in can_struct['structure']:
             if int(frame_config['can_id'], 16) == int(ids_vector[id_index]):
                 # iterate the variables on the configuration to get the matrix values
                 cur_byte_index = 0
@@ -58,9 +60,7 @@ while curr_row < mat.shape[0]:
 
                     # convert the byte array to the integer value
                     int_val = parseFromIntArray(mat[curr_row][cur_byte_index:ending_byte])
-
-                    # show the result
-                    print(f"{frame_config['vars'][v]['name']}: {int_val}")
+                    frame_config['vars'][v]['values'].append(int_val)
 
                     # the new starting byte index of the row is the last ending byte
                     cur_byte_index = ending_byte
@@ -68,7 +68,37 @@ while curr_row < mat.shape[0]:
         # change to the next matrix row
         curr_row += 1
 
-    print()
-
     # change to the next timestep
-    curr_row += config['n_ids_max'] - config['n_ids']
+    curr_row += can_struct['n_ids_max'] - can_struct['n_ids']
+
+print("Done!")
+
+print(can_struct)
+
+s_out = ""
+# print the frame IDs header
+for frame in can_struct['structure']:
+    s_out += frame['can_id']
+    for i in range(len(frame['vars'])):
+        s_out += ";"
+s_out += "\n"
+
+# print the var names
+for frame in can_struct['structure']:
+    for var in frame['vars']:
+        s_out += var['name']
+        s_out += ";"
+s_out += "\n"
+
+# print the data
+for row_num in range(int(mat.shape[0] / can_struct['n_ids_max'])):
+    for frame in can_struct['structure']:
+        for var in frame['vars']:
+            s_out += str(var['values'][row_num])
+            s_out += ";"
+    s_out += "\n"
+
+# write the output csv to file
+f_out = open("out.csv", "w")
+f_out.write(s_out)
+f_out.close()

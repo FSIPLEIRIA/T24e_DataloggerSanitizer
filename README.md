@@ -12,3 +12,4 @@ Sanitize the CSV file to be more optimal to analyze data.
   - ```vars```: Variables defined in this frame. Mind the byte order.
     - ```name```: Textual description of the variable
     - ```length```: Number of bytes allocated to this variable
+    - ```values```: Keep this array empty, it is used by the script
