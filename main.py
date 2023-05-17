@@ -36,40 +36,38 @@ mat = np.loadtxt(sys.argv[1], delimiter=';', dtype=int)
 print("Done!")
 
 # slice the IDs based on the config
-ids_vector = mat[0:can_struct['n_ids'], 0]
+# ids_vector = mat[0:can_struct['n_ids'], 0]
+ids_vector = list()
+for struct in can_struct['structure']:
+    ids_vector.append(int(struct['can_id'], 16))
 
 # remove the IDs column from the matrix
-mat = mat[:,1:]
+# mat = mat[:,1:]
 
-# iterate the matrix rows
 print("Parsing the data...", end='')
+# iterate the matrix rows
 curr_row = 0
 while curr_row < mat.shape[0]:
 
-    # iterate the IDs
-    for id_index in range(can_struct['n_ids']):
+    # find the frame configuration to the ID of the matrix
+    for frame_config in can_struct['structure']:
+        if int(frame_config['can_id'], 16) == mat[curr_row][0]:
+            # iterate the variables on the configuration to get the matrix values
+            cur_byte_index = 1
+            for v in range(len(frame_config['vars'])):
+                # calculate the ending byte of this variable
+                ending_byte = cur_byte_index + frame_config['vars'][v]['length']
 
-        # find the frame ID on configuration to parse bytes
-        for frame_config in can_struct['structure']:
-            if int(frame_config['can_id'], 16) == int(ids_vector[id_index]):
-                # iterate the variables on the configuration to get the matrix values
-                cur_byte_index = 0
-                for v in range(len(frame_config['vars'])):
-                    # calculate the ending byte of this variable
-                    ending_byte = cur_byte_index + frame_config['vars'][v]['length']
+                # convert the byte array to the integer value
+                int_val = parseFromIntArray(mat[curr_row][cur_byte_index:ending_byte])
+                frame_config['vars'][v]['values'].append(int_val)
 
-                    # convert the byte array to the integer value
-                    int_val = parseFromIntArray(mat[curr_row][cur_byte_index:ending_byte])
-                    frame_config['vars'][v]['values'].append(int_val)
+                # the new starting byte index of the row is the last ending byte
+                cur_byte_index = ending_byte
 
-                    # the new starting byte index of the row is the last ending byte
-                    cur_byte_index = ending_byte
+    # change to the next matrix row
+    curr_row += 1
 
-        # change to the next matrix row
-        curr_row += 1
-
-    # change to the next timestep
-    curr_row += can_struct['n_ids_max'] - can_struct['n_ids']
 
 print("Done!")
 
@@ -94,7 +92,8 @@ s_out += "\n"
 for row_num in range(int(mat.shape[0] / can_struct['n_ids_max'])):
     for frame in can_struct['structure']:
         for var in frame['vars']:
-            s_out += str(var['values'][row_num])
+            if row_num <= len(var['values']) - 1:
+                s_out += str(var['values'][row_num])
             s_out += ";"
     s_out += "\n"
 

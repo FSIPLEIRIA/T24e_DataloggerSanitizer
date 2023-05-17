@@ -1,7 +1,7 @@
 {
     "n_bytes": 8,
-    "n_ids_max": 20,
-    "n_ids": 3,
+    "n_ids_max": 50,
+    "n_ids": 20,
     "structure": 
     [{
         "can_id": "0x60",
@@ -49,6 +49,471 @@
             {
                 "name": "BP_RE",
                 "length": 2,
+                "values": []
+            }
+        ]
+    },
+    {
+        "can_id": "0x62",
+        "vars": [
+            {
+                "name": "MAP",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "AT",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Water_P",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "LA_1",
+                "length": 2,
+                "values": []
+            }
+        ]
+    },
+    {
+        "can_id": "0x63",
+        "vars": [
+            {
+                "name": "La1_Str",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "La1_Ltr",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Load",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Effcy",
+                "length": 2,
+                "values": []
+            }
+        ]
+    },
+    {
+        "can_id": "0x64",
+        "vars": [
+            {
+                "name": "Gear",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Drv_Sps",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "RD_Spd",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "LD_Spd",
+                "length": 2,
+                "values": []
+            }
+        ]
+    },
+    {
+        "can_id": "0x65",
+        "vars": [
+            {
+                "name": "RG_Spd",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "LG_Spd",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Slip",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Slip_Aim",
+                "length": 2,
+                "values": []
+            }
+        ]
+    },
+    {
+        "can_id": "0x66",
+        "vars": [
+            {
+                "name": "Lnch_Aim",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Fuel_Cut",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Ign_Cut",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Gear_Cut",
+                "length": 2,
+                "values": []
+            }
+        ]
+    },
+    {
+        "can_id": "0x67",
+        "vars": [
+            {
+                "name": "Aux_1_Dty",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Aux_2_Dty",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Aux_3_Dty",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Aux_4_Dty",
+                "length": 2,
+                "values": []
+            }
+        ]
+    },
+    {
+        "can_id": "0x68",
+        "vars": [
+            {
+                "name": "Aux_5_Dty",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Aux_6_Dty",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Aux_7_Dty",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Aux_8_Dty",
+                "length": 2,
+                "values": []
+            }
+        ]
+    },
+    {
+        "can_id": "0x69",
+        "vars": [
+            {
+                "name": "Status_1",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Status_3",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Status_4",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "Status_5",
+                "length": 2,
+                "values": []
+            }
+        ]
+    },
+    {
+        "can_id": "0x6A",
+        "vars": [
+            {
+                "name": "TPD",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "TPD2",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "TPD_Rqd",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "TPD_Rqd_2",
+                "length": 2,
+                "values": []
+            }
+        ]
+    },
+    {
+        "can_id": "0x6B",
+        "vars": [
+            {
+                "name": "CPU_U",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "ECU_T",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "TP_A",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "TPr_C",
+                "length": 2,
+                "values": []
+            }
+        ]
+    },
+    {
+        "can_id": "0x6C",
+        "vars": [
+            {
+                "name": "DBWa_Er",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "DBWA_Er",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "FP",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "F_Used",
+                "length": 2,
+                "values": []
+            }
+        ]
+    },
+    {
+        "can_id": "0x6D",
+        "vars": [
+            {
+                "name": "F_Accel",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "SP",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "S_Pot_1",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "S_Pot_2",
+                "length": 2,
+                "values": []
+            }
+        ]
+    },
+    {
+        "can_id": "0x6E",
+        "vars": [
+            {
+                "name": "GPS_Lah",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "GPS_Lal",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "GPS_Loh",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "GPS_Lol",
+                "length": 2,
+                "values": []
+            }
+        ]
+    },
+    {
+        "can_id": "0x6F",
+        "vars": [
+            {
+                "name": "GPS_Sats",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "GPS_Qly",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "GPS_Spd",
+                "length": 2,
+                "values": []
+            },
+            {
+                "name": "GPS_Alt",
+                "length": 2,
+                "values": []
+            }
+        ]
+    },
+    {
+        "can_id": "0x70",
+        "vars": [
+            {
+                "name": "Ttemp_0",
+                "length": 1,
+                "values": []
+            },
+            {
+                "name": "Ttemp_1",
+                "length": 1,
+                "values": []
+            },
+            {
+                "name": "Ttemp_2",
+                "length": 1,
+                "values": []
+            },
+            {
+                "name": "Ttemp_3",
+                "length": 1,
+                "values": []
+            },
+            {
+                "name": "Ttemp_4",
+                "length": 1,
+                "values": []
+            },
+            {
+                "name": "Ttemp_5",
+                "length": 1,
+                "values": []
+            },
+            {
+                "name": "Ttemp_6",
+                "length": 1,
+                "values": []
+            },
+            {
+                "name": "Ttemp_7",
+                "length": 1,
+                "values": []
+            }
+        ]
+    },
+    {
+        "can_id": "0x71",
+        "vars": [
+            {
+                "name": "AccelX_int",
+                "length": 1,
+                "values": []
+            },
+            {
+                "name": "AccelX_dec",
+                "length": 1,
+                "values": []
+            },
+            {
+                "name": "AccelY_int",
+                "length": 1,
+                "values": []
+            },
+            {
+                "name": "Accely_dec",
+                "length": 1,
+                "values": []
+            },
+            {
+                "name": "Accelz_int",
+                "length": 1,
+                "values": []
+            },
+            {
+                "name": "Accelz_dec",
+                "length": 1,
+                "values": []
+            }
+        ]
+    },
+    {
+        "can_id": "0x72",
+        "vars": [
+            {
+                "name": "Roll_int",
+                "length": 1,
+                "values": []
+            },
+            {
+                "name": "Roll_dec",
+                "length": 1,
+                "values": []
+            },
+            {
+                "name": "Pitch_int",
+                "length": 1,
+                "values": []
+            },
+            {
+                "name": "Pitch_dec",
+                "length": 1,
+                "values": []
+            },
+            {
+                "name": "Yaw_int",
+                "length": 1,
+                "values": []
+            },
+            {
+                "name": "Yaw_dec",
+                "length": 1,
                 "values": []
             }
         ]
