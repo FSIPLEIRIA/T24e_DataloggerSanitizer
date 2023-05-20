@@ -33,7 +33,14 @@ def loadFile(path, separator):
 
     out = list()
 
+    # check the max length of the lines to pad the smaller ones
+    # very unperformant, but more reliable
+    max_length = max(len(l.split(separator)) for l in lines)
+
     for l in lines:
+        # skip blank lines
+        if l == "":
+            continue
         # split each line by ";"
         l = l.split(separator)
         # create a list to the new line
@@ -45,11 +52,14 @@ def loadFile(path, separator):
             except ValueError:
                 c = 0
             new_line.append(c)
+        # pad the remaining with zeros
+        while len(new_line) < max_length:
+            new_line.append(0)
         out.append(new_line)
 
     # convert to a numpy matrix
     # mat = np.matrix(out)
-    mat = np.array(out)
+    mat = np.array(out, dtype=int)
 
     return mat
 
