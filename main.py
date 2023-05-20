@@ -1,6 +1,7 @@
 import sys
 import numpy as np
 import json
+import threading
 import os
 
 """
@@ -52,24 +53,7 @@ def loadFile(path, separator):
 
     return mat
 
-# check for command line arguments
-if len(sys.argv) < 3:
-    print("Insufficient arguments provided!")
-    print(f"Usage: python {sys.argv[0]} [in_dir] [out_dir]")
-    sys.exit(-1)
-
-# load configuration file
-print("Reading CAN configuration...", end='')
-f = open("can_config.json", "r")
-can_struct = json.loads(f.read())
-f.close()
-# print(can_struct)
-print("Done!")
-
-# list the files in the directory
-for file in os.listdir(sys.argv[1]):
-    print(f"PROCESSING FILE {os.path.join(sys.argv[1], file)}...")
-
+def file_processing_routine(full_path):
     """
     PROCESS EACH FILE OF THE DIRECTORY
     """
@@ -111,7 +95,6 @@ for file in os.listdir(sys.argv[1]):
         # change to the next matrix row
         curr_row += 1
 
-
     print("Done!")
 
     # print(can_struct)
@@ -145,4 +128,32 @@ for file in os.listdir(sys.argv[1]):
     f_out.write(s_out)
     f_out.close()
 
-    print("DONE!\n")
+# check for command line arguments
+if len(sys.argv) < 3:
+    print("Insufficient arguments provided!")
+    print(f"Usage: python {sys.argv[0]} [in_dir] [out_dir]")
+    sys.exit(-1)
+
+# load configuration file
+print("Reading CAN configuration...", end='')
+f = open("can_config.json", "r")
+can_struct = json.loads(f.read())
+f.close()
+# print(can_struct)
+print("Done!")
+
+# list the files in the directory
+thread_list = list()
+for file in os.listdir(sys.argv[1]):
+    print(f"PROCESSING FILE {os.path.join(sys.argv[1], file)}...")
+
+    # start a thread for each file
+    t = threading.Thread(target=file_processing_routine, args=(os.path.join(sys.argv[1]),))
+    t.start()
+    thread_list.append(t)
+
+    print(f"DONE PROCESSING {os.path.join(sys.argv[1], file)}!\n")
+
+# wait for the threads to finish
+for t in thread_list:
+    t.join()
