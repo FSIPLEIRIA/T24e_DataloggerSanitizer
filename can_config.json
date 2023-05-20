@@ -1,7 +1,6 @@
 {
     "n_bytes": 8,
     "n_ids_max": 50,
-    "n_ids": 20,
     "structure": 
     [{
         "can_id": "0x60",

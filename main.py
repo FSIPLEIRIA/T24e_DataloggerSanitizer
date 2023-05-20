@@ -1,6 +1,7 @@
 import sys
 import numpy as np
 import json
+import os
 
 """
 Developed by carlostojal - may 2023
@@ -16,6 +17,41 @@ def parseFromIntArray(array):
         out |= array[b] << (n_bytes - b - 1) * 8
     return out
 
+def loadFile(path, separator):
+    # open the file
+    with open(path, "r") as f:
+        data = f.read()
+
+    # line breaks differ from Linux to Windows (\n vs \r\n), so the splitting is different
+    lines = data.split(os.linesep)
+
+    # remove the first line: header line
+    lines.pop(0)
+
+    # print(lines)
+
+    out = list()
+
+    for l in lines:
+        # split each line by ";"
+        l = l.split(separator)
+        # create a list to the new line
+        new_line = list()
+        # convert to int
+        for c in l:
+            try:
+                c = int(c)
+            except ValueError:
+                c = 0
+            new_line.append(c)
+        out.append(new_line)
+
+    # convert to a numpy matrix
+    # mat = np.matrix(out)
+    mat = np.array(out)
+
+    return mat
+
 # check for command line arguments
 if len(sys.argv) == 1:
     print("Insufficient arguments provided!")
@@ -27,12 +63,12 @@ print("Reading CAN configuration...", end='')
 f = open("can_config.json", "r")
 can_struct = json.loads(f.read())
 f.close()
-print(can_struct)
+# print(can_struct)
 print("Done!")
 
 # load csv file to numpy matrix
 print("Reading the file...", end='')
-mat = np.loadtxt(sys.argv[1], delimiter=';', dtype=int)
+mat = loadFile(sys.argv[1], ';')
 print("Done!")
 
 # slice the IDs based on the config
@@ -71,7 +107,7 @@ while curr_row < mat.shape[0]:
 
 print("Done!")
 
-print(can_struct)
+# print(can_struct)
 
 s_out = ""
 # print the frame IDs header
