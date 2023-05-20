@@ -129,6 +129,8 @@ def file_processing_routine(full_path: str, out_path: str):
     f_out.write(s_out)
     f_out.close()
 
+    print(f"DONE PROCESSING {full_path}!\n")
+
 # check for command line arguments
 if len(sys.argv) < 3:
     print("Insufficient arguments provided!")
@@ -153,8 +155,6 @@ for file in os.listdir(sys.argv[1]):
                                                                os.path.join(sys.argv[2], file), ))
     t.start()
     thread_list.append(t)
-
-    print(f"DONE PROCESSING {os.path.join(sys.argv[1], file)}!\n")
 
 # wait for the threads to finish
 for t in thread_list:
