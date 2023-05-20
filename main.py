@@ -53,14 +53,14 @@ def loadFile(path, separator):
 
     return mat
 
-def file_processing_routine(full_path):
+def file_processing_routine(full_path: str, out_path: str):
     """
     PROCESS EACH FILE OF THE DIRECTORY
     """
     # load csv file to numpy matrix
-    print("Reading the input file...", end='')
+    print(f"Reading the input file {full_path}...", end='')
     mat = loadFile(os.path.join(sys.argv[1], file), ';')
-    print("Done!")
+    print(f"Done reading {full_path}!")
 
     # slice the IDs based on the config
     # ids_vector = mat[0:can_struct['n_ids'], 0]
@@ -71,7 +71,7 @@ def file_processing_routine(full_path):
     # remove the IDs column from the matrix
     # mat = mat[:,1:]
 
-    print("Parsing the data...", end='')
+    print(f"Parsing the data of {full_path}...", end='')
     # iterate the matrix rows
     curr_row = 0
     while curr_row < mat.shape[0]:
@@ -95,7 +95,7 @@ def file_processing_routine(full_path):
         # change to the next matrix row
         curr_row += 1
 
-    print("Done!")
+    print(f"Done parsing {full_path}!")
 
     # print(can_struct)
 
@@ -124,7 +124,8 @@ def file_processing_routine(full_path):
         s_out += "\n"
 
     # write the output csv to file
-    f_out = open(os.path.join(sys.argv[2], file), "w")
+    print(f"Writing the output file {out_path}")
+    f_out = open(out_path, "w")
     f_out.write(s_out)
     f_out.close()
 
@@ -148,7 +149,8 @@ for file in os.listdir(sys.argv[1]):
     print(f"PROCESSING FILE {os.path.join(sys.argv[1], file)}...")
 
     # start a thread for each file
-    t = threading.Thread(target=file_processing_routine, args=(os.path.join(sys.argv[1]),))
+    t = threading.Thread(target=file_processing_routine, args=(os.path.join(sys.argv[1], file),
+                                                               os.path.join(sys.argv[2], file), ))
     t.start()
     thread_list.append(t)
 
