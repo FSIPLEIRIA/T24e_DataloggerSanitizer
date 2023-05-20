@@ -53,9 +53,9 @@ def loadFile(path, separator):
     return mat
 
 # check for command line arguments
-if len(sys.argv) == 1:
+if len(sys.argv) < 3:
     print("Insufficient arguments provided!")
-    print(f"Usage: python {sys.argv[0]} [filename.csv]")
+    print(f"Usage: python {sys.argv[0]} [in_dir] [out_dir]")
     sys.exit(-1)
 
 # load configuration file
@@ -66,74 +66,83 @@ f.close()
 # print(can_struct)
 print("Done!")
 
-# load csv file to numpy matrix
-print("Reading the file...", end='')
-mat = loadFile(sys.argv[1], ';')
-print("Done!")
+# list the files in the directory
+for file in os.listdir(sys.argv[1]):
+    print(f"PROCESSING FILE {os.path.join(sys.argv[1], file)}...")
 
-# slice the IDs based on the config
-# ids_vector = mat[0:can_struct['n_ids'], 0]
-ids_vector = list()
-for struct in can_struct['structure']:
-    ids_vector.append(int(struct['can_id'], 16))
+    """
+    PROCESS EACH FILE OF THE DIRECTORY
+    """
+    # load csv file to numpy matrix
+    print("Reading the input file...", end='')
+    mat = loadFile(os.path.join(sys.argv[1], file), ';')
+    print("Done!")
 
-# remove the IDs column from the matrix
-# mat = mat[:,1:]
+    # slice the IDs based on the config
+    # ids_vector = mat[0:can_struct['n_ids'], 0]
+    ids_vector = list()
+    for struct in can_struct['structure']:
+        ids_vector.append(int(struct['can_id'], 16))
 
-print("Parsing the data...", end='')
-# iterate the matrix rows
-curr_row = 0
-while curr_row < mat.shape[0]:
+    # remove the IDs column from the matrix
+    # mat = mat[:,1:]
 
-    # find the frame configuration to the ID of the matrix
-    for frame_config in can_struct['structure']:
-        if int(frame_config['can_id'], 16) == mat[curr_row][0]:
-            # iterate the variables on the configuration to get the matrix values
-            cur_byte_index = 1
-            for v in range(len(frame_config['vars'])):
-                # calculate the ending byte of this variable
-                ending_byte = cur_byte_index + frame_config['vars'][v]['length']
+    print("Parsing the data...", end='')
+    # iterate the matrix rows
+    curr_row = 0
+    while curr_row < mat.shape[0]:
 
-                # convert the byte array to the integer value
-                int_val = parseFromIntArray(mat[curr_row][cur_byte_index:ending_byte])
-                frame_config['vars'][v]['values'].append(int_val)
+        # find the frame configuration to the ID of the matrix
+        for frame_config in can_struct['structure']:
+            if int(frame_config['can_id'], 16) == mat[curr_row][0]:
+                # iterate the variables on the configuration to get the matrix values
+                cur_byte_index = 1
+                for v in range(len(frame_config['vars'])):
+                    # calculate the ending byte of this variable
+                    ending_byte = cur_byte_index + frame_config['vars'][v]['length']
 
-                # the new starting byte index of the row is the last ending byte
-                cur_byte_index = ending_byte
+                    # convert the byte array to the integer value
+                    int_val = parseFromIntArray(mat[curr_row][cur_byte_index:ending_byte])
+                    frame_config['vars'][v]['values'].append(int_val)
 
-    # change to the next matrix row
-    curr_row += 1
+                    # the new starting byte index of the row is the last ending byte
+                    cur_byte_index = ending_byte
+
+        # change to the next matrix row
+        curr_row += 1
 
 
-print("Done!")
+    print("Done!")
 
-# print(can_struct)
+    # print(can_struct)
 
-s_out = ""
-# print the frame IDs header
-for frame in can_struct['structure']:
-    s_out += frame['can_id']
-    for i in range(len(frame['vars'])):
-        s_out += ";"
-s_out += "\n"
-
-# print the var names
-for frame in can_struct['structure']:
-    for var in frame['vars']:
-        s_out += var['name']
-        s_out += ";"
-s_out += "\n"
-
-# print the data
-for row_num in range(int(mat.shape[0] / can_struct['n_ids_max'])):
+    s_out = ""
+    # print the frame IDs header
     for frame in can_struct['structure']:
-        for var in frame['vars']:
-            if row_num <= len(var['values']) - 1:
-                s_out += str(var['values'][row_num])
+        s_out += frame['can_id']
+        for i in range(len(frame['vars'])):
             s_out += ";"
     s_out += "\n"
 
-# write the output csv to file
-f_out = open("out.csv", "w")
-f_out.write(s_out)
-f_out.close()
+    # print the var names
+    for frame in can_struct['structure']:
+        for var in frame['vars']:
+            s_out += var['name']
+            s_out += ";"
+    s_out += "\n"
+
+    # print the data
+    for row_num in range(int(mat.shape[0] / can_struct['n_ids_max'])):
+        for frame in can_struct['structure']:
+            for var in frame['vars']:
+                if row_num <= len(var['values']) - 1:
+                    s_out += str(var['values'][row_num])
+                s_out += ";"
+        s_out += "\n"
+
+    # write the output csv to file
+    f_out = open(os.path.join(sys.argv[2], file), "w")
+    f_out.write(s_out)
+    f_out.close()
+
+    print("DONE!\n")
